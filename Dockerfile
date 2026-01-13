@@ -1,20 +1,15 @@
-# ---------- Build stage ----------
 FROM gradle:8.5-jdk17 AS build
 WORKDIR /app
 
-# Copy Gradle files first (better caching)
 COPY build.gradle settings.gradle.kts gradlew ./
 COPY gradle ./gradle
+RUN chmod +x gradlew
 
 RUN ./gradlew dependencies --no-daemon || true
 
-# Copy source code
 COPY src ./src
-
-# Build the Spring Boot JAR
 RUN ./gradlew clean build -x test --no-daemon
 
-# ---------- Runtime stage ----------
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 
