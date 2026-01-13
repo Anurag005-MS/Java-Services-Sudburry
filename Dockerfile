@@ -3,8 +3,9 @@ FROM gradle:8.5-jdk17 AS build
 WORKDIR /app
 
 # Copy Gradle files first (better caching)
-COPY build.gradle settings.gradle gradlew ./
+COPY build.gradle settings.gradle.kts gradlew ./
 COPY gradle ./gradle
+
 RUN ./gradlew dependencies --no-daemon || true
 
 # Copy source code
@@ -17,11 +18,7 @@ RUN ./gradlew clean build -x test --no-daemon
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 
-# Copy the built jar from the build stage
 COPY --from=build /app/build/libs/*.jar app.jar
 
-# Render provides PORT env variable
 EXPOSE 8080
-
-# Run the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
