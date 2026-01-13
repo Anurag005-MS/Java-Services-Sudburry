@@ -3,8 +3,8 @@ FROM gradle:8.5-jdk17 AS build
 WORKDIR /app
 
 # Copy Gradle files first (better caching)
-COPY build.gradle settings.gradle gradlew ./
-COPY gradle ./gradle
+COPY ../build.gradle settings.gradle gradlew ./
+COPY ../gradle ./gradle
 RUN ./gradlew dependencies --no-daemon || true
 
 # Copy source code

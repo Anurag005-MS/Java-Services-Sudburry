@@ -1,4 +1,4 @@
 huggingface:
   api:
     url: https://router.huggingface.co/v1/chat/completions
-    token: {token}
+    token: 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
