@@ -66,9 +66,9 @@ public class EventService {
                 .orElseThrow(() -> new RuntimeException("Event not found"));
 
         // 2️⃣ Find or create user
-        User user = userRepository.findByEmail(request.getEmail())
+        UserEvent user = userRepository.findByEmail(request.getEmail())
                 .orElseGet(() -> {
-                    User newUser = new User();
+                    UserEvent newUser = new UserEvent();
                     newUser.setName(request.getName());
                     newUser.setEmail(request.getEmail());
                     return userRepository.save(newUser);

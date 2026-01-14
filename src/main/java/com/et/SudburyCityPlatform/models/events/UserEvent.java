@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "event_users")
-public class User {
+public class UserEvent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

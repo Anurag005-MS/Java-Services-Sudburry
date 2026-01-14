@@ -23,7 +23,7 @@ public class EventRegistration {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserEvent user;
 
     private LocalDateTime registeredAt;
 
@@ -43,11 +43,12 @@ public class EventRegistration {
         this.event = event;
     }
 
-    public User getUser() {
+
+    public UserEvent getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEvent user) {
         this.user = user;
     }
 
