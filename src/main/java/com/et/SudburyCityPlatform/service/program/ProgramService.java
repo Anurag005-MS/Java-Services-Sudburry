@@ -3,7 +3,7 @@ package com.et.SudburyCityPlatform.service.program;
 import com.et.SudburyCityPlatform.models.program.*;
 import com.et.SudburyCityPlatform.repository.program.ProgramEnrollmentRepository;
 import com.et.SudburyCityPlatform.repository.program.ProgramRepository;
-import com.et.SudburyCityPlatform.repository.program.UserRepository;
+import com.et.SudburyCityPlatform.repository.program.UserRepositoryProgram;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,10 +14,10 @@ public class ProgramService {
 
     private final ProgramRepository repository;
 
-    private final UserRepository userRepository;
+    private final UserRepositoryProgram userRepository;
     private final ProgramEnrollmentRepository enrollmentRepository;
 
-    public ProgramService(ProgramRepository repository, UserRepository userRepository, ProgramEnrollmentRepository enrollmentRepository) {
+    public ProgramService(ProgramRepository repository, UserRepositoryProgram userRepository, ProgramEnrollmentRepository enrollmentRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.enrollmentRepository = enrollmentRepository;
