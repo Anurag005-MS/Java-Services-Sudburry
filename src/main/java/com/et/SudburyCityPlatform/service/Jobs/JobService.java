@@ -1,6 +1,8 @@
 package com.et.SudburyCityPlatform.service.Jobs;
 
 import com.et.SudburyCityPlatform.models.jobs.Job;
+import com.et.SudburyCityPlatform.models.jobs.JobApplicationRequest;
+import com.et.SudburyCityPlatform.repository.Jobs.JobApplicationRepository;
 import com.et.SudburyCityPlatform.repository.Jobs.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,14 @@ public class JobService {
 
     private final JobRepository jobRepository;
 
+   private final JobApplicationRepository applicationRepository;
+
     @Autowired
-    public JobService(JobRepository jobRepository) {
+    public JobService(JobRepository jobRepository, JobApplicationRepository applicationRepository) {
         this.jobRepository = jobRepository;
+        this.applicationRepository = applicationRepository;
+
+
     }
 
     public Job createJob(Job job) {
@@ -40,5 +47,26 @@ public class JobService {
         desiredJob.setRequirements(job.getRequirements());
 
         return jobRepository.save(desiredJob);
+    }
+
+
+
+    public JobApplicationRequest applyForJob(Long jobId, JobApplicationRequest request) {
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job not found"));
+
+        // 2️⃣ Prevent duplicate applications (optional but recommended)
+        boolean alreadyApplied =
+                applicationRepository.existsByJobIdAndEmail(jobId, request.getEmail());
+
+        if (alreadyApplied) {
+            throw new RuntimeException("You have already applied for this job");
+        }
+
+        // 3️⃣ Attach job to application
+        request.setJob(job);
+
+        // 4️⃣ Save application
+        return applicationRepository.save(request);
     }
 }
