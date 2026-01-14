@@ -1,6 +1,7 @@
 package com.et.SudburyCityPlatform.controller;
 
 import com.et.SudburyCityPlatform.models.events.Event;
+import com.et.SudburyCityPlatform.models.events.EventRegistrationRequest;
 import com.et.SudburyCityPlatform.models.events.EventRequest;
 import com.et.SudburyCityPlatform.service.events.EventService;
 import jakarta.validation.Valid;
@@ -52,6 +53,14 @@ public class EventController {
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
+    }
+    @PostMapping("/{eventId}/register")
+    public ResponseEntity<String> registerForEvent(
+            @PathVariable Long eventId,
+            @Valid @RequestBody EventRegistrationRequest request) {
+
+        eventService.registerUser(eventId, request);
+        return ResponseEntity.ok("User registered successfully");
     }
 }
 
