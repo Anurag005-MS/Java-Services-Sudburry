@@ -1,11 +1,13 @@
 package com.et.SudburyCityPlatform.controller;
 
 import com.et.SudburyCityPlatform.models.jobs.Job;
+import com.et.SudburyCityPlatform.models.jobs.JobApplicationRequest;
 import com.et.SudburyCityPlatform.models.jobs.ResumeResponse;
 import com.et.SudburyCityPlatform.service.Jobs.JobService;
 import com.et.SudburyCityPlatform.service.ResumeParserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -65,5 +67,15 @@ public class JobController {
             @RequestParam("file") MultipartFile file) throws Exception {
 
         return ResponseEntity.ok(resumeParserService.parseResume(file));
+    }
+    @PostMapping("/{jobId}/apply")
+    public ResponseEntity<JobApplicationRequest> applyForJob(
+            @PathVariable Long jobId,
+            @Valid @RequestBody JobApplicationRequest request) {
+
+        JobApplicationRequest saved =
+                jobService.applyForJob(jobId, request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 }
