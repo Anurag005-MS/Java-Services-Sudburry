@@ -1,6 +1,8 @@
 package com.et.SudburyCityPlatform.service.program;
 
+import com.et.SudburyCityPlatform.models.jobs.JobSeekerProfile;
 import com.et.SudburyCityPlatform.models.program.*;
+import com.et.SudburyCityPlatform.repository.Jobs.JobSeekerProfileRepository;
 import com.et.SudburyCityPlatform.repository.program.ProgramEnrollmentRepository;
 import com.et.SudburyCityPlatform.repository.program.ProgramRepository;
 import com.et.SudburyCityPlatform.repository.program.UserRepositoryProgram;
@@ -16,11 +18,13 @@ public class ProgramService {
 
     private final UserRepositoryProgram userRepository;
     private final ProgramEnrollmentRepository enrollmentRepository;
+    private final JobSeekerProfileRepository profileRepository;
 
-    public ProgramService(ProgramRepository repository, UserRepositoryProgram userRepository, ProgramEnrollmentRepository enrollmentRepository) {
+    public ProgramService(ProgramRepository repository, UserRepositoryProgram userRepository, ProgramEnrollmentRepository enrollmentRepository, JobSeekerProfileRepository profileRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.enrollmentRepository = enrollmentRepository;
+        this.profileRepository = profileRepository;
     }
 
     public Program create(ProgramRequest request) {
@@ -97,5 +101,45 @@ public class ProgramService {
         program.setAvailableSeats(program.getAvailableSeats() - 1);
         repository.save(program);
     }
+    public List<Program> recommendProgramsForJobSeeker(
+            JobSeekerProfile profile) {
+
+        List<String> skills =
+                profile.getSkills() == null
+                        ? List.of()
+                        : profile.getSkills()
+                        .stream()
+                        .map(String::toLowerCase)
+                        .toList();
+
+        return repository.findAll()
+                .stream()
+                .filter(program -> {
+
+                    // 1️⃣ Match learning points
+                    boolean matchesLearning =
+                            program.getLearningPoints() != null &&
+                                    program.getLearningPoints().stream()
+                                            .anyMatch(lp ->
+                                                    skills.stream()
+                                                            .anyMatch(skill ->
+                                                                    lp.toLowerCase()
+                                                                            .contains(skill)));
+
+                    // 2️⃣ Match eligibility gaps
+                    boolean matchesEligibility =
+                            program.getEligibility() != null &&
+                                    program.getEligibility().stream()
+                                            .anyMatch(e ->
+                                                    skills.stream()
+                                                            .anyMatch(skill ->
+                                                                    e.toLowerCase()
+                                                                            .contains(skill)));
+
+                    return matchesLearning || matchesEligibility;
+                })
+                .toList();
+    }
+
 }
 

@@ -1,8 +1,10 @@
 package com.et.SudburyCityPlatform.controller;
 
+import com.et.SudburyCityPlatform.models.jobs.JobSeekerProfile;
 import com.et.SudburyCityPlatform.models.program.ApplyProgramRequest;
 import com.et.SudburyCityPlatform.models.program.Program;
 import com.et.SudburyCityPlatform.models.program.ProgramRequest;
+import com.et.SudburyCityPlatform.repository.Jobs.JobSeekerProfileRepository;
 import com.et.SudburyCityPlatform.service.program.ProgramService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +17,11 @@ import java.util.List;
 public class ProgramController {
 
     private final ProgramService service;
+    private final JobSeekerProfileRepository profileRepository;
 
-    public ProgramController(ProgramService service) {
+    public ProgramController(ProgramService service, JobSeekerProfileRepository profileRepository) {
         this.service = service;
+        this.profileRepository = profileRepository;
     }
 
     @PostMapping
@@ -53,5 +57,17 @@ public class ProgramController {
         service.apply(programId, request);
         return ResponseEntity.ok("Application submitted successfully");
     }
+    @GetMapping("/recommended")
+    public List<Program> recommendedPrograms(
+            @RequestParam String email) {
+
+        JobSeekerProfile profile =
+                profileRepository.findByEmail(email)
+                        .orElseThrow(() ->
+                                new RuntimeException("Profile required"));
+
+        return service.recommendProgramsForJobSeeker(profile);
+    }
+
 }
 
