@@ -6,11 +6,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name = "applicantDetails")
 @Data
+@NoArgsConstructor
 public class JobApplicationRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,6 +73,48 @@ public class JobApplicationRequest {
     // Additional
     private String coverLetter;
     private String additionalInformation;
+
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus status = ApplicationStatus.APPLIED;
+
+    public JobApplicationRequest(Long id, Job job, String firstName, String lastName, String email, String phoneNumber, String address, String city, String state, String country, String zipCode, String positionAppliedFor, Integer yearsOfExperience, String highestEducation, String resumeUrl, String linkedInProfile, String githubProfile, String portfolioUrl, Boolean authorizedToWork, Boolean requireSponsorship, Boolean hasDisability, String disabilityDescription, String gender, String raceEthnicity, String veteranStatus, String coverLetter, String additionalInformation, ApplicationStatus status) {
+        this.id = id;
+        this.job = job;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.zipCode = zipCode;
+        this.positionAppliedFor = positionAppliedFor;
+        this.yearsOfExperience = yearsOfExperience;
+        this.highestEducation = highestEducation;
+        this.resumeUrl = resumeUrl;
+        this.linkedInProfile = linkedInProfile;
+        this.githubProfile = githubProfile;
+        this.portfolioUrl = portfolioUrl;
+        this.authorizedToWork = authorizedToWork;
+        this.requireSponsorship = requireSponsorship;
+        this.hasDisability = hasDisability;
+        this.disabilityDescription = disabilityDescription;
+        this.gender = gender;
+        this.raceEthnicity = raceEthnicity;
+        this.veteranStatus = veteranStatus;
+        this.coverLetter = coverLetter;
+        this.additionalInformation = additionalInformation;
+        this.status = status;
+    }
+
+    public ApplicationStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ApplicationStatus status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;

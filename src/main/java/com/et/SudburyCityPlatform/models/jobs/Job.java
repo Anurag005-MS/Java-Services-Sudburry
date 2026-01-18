@@ -24,11 +24,26 @@ public class Job {
 
     private LocalDate postedDate;
 
-    private String Description;
+    private String description;
 
     private String typeOfWork;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(
+            name = "employer_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "fk_job_employer"),
+            nullable=false
+    )
+    private Employer employer;
 
+    public Employer getEmployer() {
+        return employer;
+    }
+
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
+    }
 
     // Constructors
     public Job() {}
@@ -90,11 +105,11 @@ public class Job {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public String getTypeOfWork() {
