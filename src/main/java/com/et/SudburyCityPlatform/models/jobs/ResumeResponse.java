@@ -1,26 +1,58 @@
 package com.et.SudburyCityPlatform.models.jobs;
 
-
 import lombok.Data;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class ResumeResponse {
 
-    private String name;
+    /** ---------- RAW ---------- */
+
+    /** ---------- BASIC INFO ---------- */
+    private Map<String, String> basicInfo;
+    // keys: name, email, phone, linkedin
+
+    /** ---------- CORE SECTIONS ---------- */
+    private List<Education> education;
+    private List<WorkExperience> workExperience;
     private List<String> skills;
-    private String experience;
     private List<String> projects;
-    private String rawText;
+    private List<String> achievements;
+    private List<String> certification;
 
-    private String Achivements;
+    /** ---------- OPTIONAL / META ---------- */
+    private List<String> preference;
+    private String otherDetails;
+    private List<String> accessibilityNeeds;
 
-    public String getName() {
-        return name;
+    /** ---------- CONSENT ---------- */
+    private Boolean reviewAgree;
+
+
+
+    public Map<String, String> getBasicInfo() {
+        return basicInfo;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBasicInfo(Map<String, String> basicInfo) {
+        this.basicInfo = basicInfo;
+    }
+
+    public List<Education> getEducation() {
+        return education;
+    }
+
+    public void setEducation(List<Education> education) {
+        this.education = education;
+    }
+
+    public List<WorkExperience> getWorkExperience() {
+        return workExperience;
+    }
+
+    public void setWorkExperience(List<WorkExperience> workExperience) {
+        this.workExperience = workExperience;
     }
 
     public List<String> getSkills() {
@@ -31,14 +63,6 @@ public class ResumeResponse {
         this.skills = skills;
     }
 
-    public String getExperience() {
-        return experience;
-    }
-
-    public void setExperience(String experience) {
-        this.experience = experience;
-    }
-
     public List<String> getProjects() {
         return projects;
     }
@@ -47,20 +71,51 @@ public class ResumeResponse {
         this.projects = projects;
     }
 
-    public String getRawText() {
-        return rawText;
+    public List<String> getAchievements() {
+        return achievements;
     }
 
-    public void setRawText(String rawText) {
-        this.rawText = rawText;
+    public void setAchievements(List<String> achievements) {
+        this.achievements = achievements;
     }
 
-    public String getAchivements() {
-        return Achivements;
+    public List<String> getCertification() {
+        return certification;
     }
 
-    public void setAchivements(String achivements) {
-        Achivements = achivements;
+    public void setCertification(List<String> certification) {
+        this.certification = certification;
+    }
+
+    public List<String> getPreference() {
+        return preference;
+    }
+
+    public void setPreference(List<String> preference) {
+        this.preference = preference;
+    }
+
+    public String getOtherDetails() {
+        return otherDetails;
+    }
+
+    public void setOtherDetails(String otherDetails) {
+        this.otherDetails = otherDetails;
+    }
+
+    public List<String> getAccessibilityNeeds() {
+        return accessibilityNeeds;
+    }
+
+    public void setAccessibilityNeeds(List<String> accessibilityNeeds) {
+        this.accessibilityNeeds = accessibilityNeeds;
+    }
+
+    public Boolean getReviewAgree() {
+        return reviewAgree;
+    }
+
+    public void setReviewAgree(Boolean reviewAgree) {
+        this.reviewAgree = reviewAgree;
     }
 }
-

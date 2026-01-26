@@ -70,6 +70,7 @@ public class JobController {
     }
 
     @PostMapping("/upload")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResumeResponse> uploadResume(
             @RequestParam("file") MultipartFile file) throws Exception {
 
